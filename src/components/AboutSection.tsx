@@ -45,6 +45,7 @@ const AboutSection = () => {
               <img
                 src={aboutTeamImage}
                 alt="Bjarne og teamet fra Ellegården"
+                loading="lazy"
                 className="relative w-full rounded-xl shadow-medium object-cover aspect-[4/5]"
               />
               
