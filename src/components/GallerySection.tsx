@@ -10,12 +10,13 @@ import gallery6 from "@/assets/gallery/gallery-6.jpg";
 import gallery7 from "@/assets/gallery/gallery-7.jpg";
 
 const galleryImages = [
-  { src: gallery2, alt: "Skovrydning og træfældning på Læsø" },
-  { src: gallery4, alt: "Professionel træfældning med sikkerhedsudstyr" },
-  { src: gallery5, alt: "Teamet ved flismaskinen på en ejendom" },
+  { src: gallery2, alt: "Skovrydning og træfældning" },
+  { src: gallery4, alt: "Professionel træfældning" },
+  { src: gallery5, alt: "Teamet ved flismaskinen" },
   { src: gallery7, alt: "Hækklipning og buskrydning" },
-  { src: gallery3, alt: "Arbejde med lift ved hus" },
-  { src: gallery6, alt: "Læsø natur og træer" },
+  { src: gallery3, alt: "Arbejde med lift" },
+  { src: gallery6, alt: "Læsø natur" },
+  { src: gallery1, alt: "Anlægsarbejde" },
 ];
 
 const GallerySection = () => {
@@ -45,47 +46,93 @@ const GallerySection = () => {
       <section
         id="billeder"
         ref={sectionRef}
-        className="py-20 md:py-28"
+        className="py-24 md:py-32 relative overflow-hidden"
       >
+        {/* Decorative diagonal line */}
+        <div className="absolute top-0 left-1/4 w-px h-32 bg-gradient-to-b from-transparent via-secondary to-transparent" />
+        
         <div className="container mx-auto">
-          {/* Header */}
-          <div className={`text-center max-w-3xl mx-auto mb-16 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
-            <span className="inline-block text-secondary font-semibold text-sm uppercase tracking-wider mb-4">
-              Vores arbejde
-            </span>
-            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
-              Billeder
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              Se eksempler på vores arbejde, maskiner og resultater. Her får du et indblik i, hvordan vi kan hjælpe din have eller grund på Læsø.
-            </p>
+          {/* Header - Offset design */}
+          <div className="grid lg:grid-cols-12 gap-8 mb-16">
+            <div className={`lg:col-span-5 transition-all duration-700 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"}`}>
+              <div className="flex items-center gap-4 mb-6">
+                <div className="h-px w-16 bg-secondary" />
+                <span className="text-secondary font-semibold text-sm uppercase tracking-widest">Galleri</span>
+              </div>
+              <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight">
+                Se vores
+                <span className="block text-secondary">arbejde</span>
+              </h2>
+            </div>
+            <div className={`lg:col-span-5 lg:col-start-8 flex items-end transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"}`}>
+              <p className="text-lg text-muted-foreground">
+                Eksempler på vores arbejde, maskiner og resultater fra hele Læsø. Klik på et billede for at forstørre.
+              </p>
+            </div>
           </div>
 
-          {/* Gallery Grid - Masonry-like layout */}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-            {galleryImages.map((image, index) => (
+          {/* Gallery - Creative asymmetric layout */}
+          <div className="grid grid-cols-12 gap-4 md:gap-6">
+            {/* Large image - spans 8 columns */}
+            <div
+              className={`col-span-12 md:col-span-8 row-span-2 cursor-pointer group transition-all duration-700 ${
+                isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
+              }`}
+              onClick={() => setSelectedImage(galleryImages[0].src)}
+            >
+              <div className="relative h-full min-h-[300px] md:min-h-[500px] rounded-2xl overflow-hidden">
+                <img
+                  src={galleryImages[0].src}
+                  alt={galleryImages[0].alt}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute bottom-6 left-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-y-4 group-hover:translate-y-0">
+                  <span className="inline-block bg-card text-foreground px-4 py-2 rounded-full text-sm font-medium shadow-lg">
+                    {galleryImages[0].alt}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Right column - 2 stacked images */}
+            {galleryImages.slice(1, 3).map((image, index) => (
               <div
                 key={index}
-                className={`overflow-hidden rounded-xl cursor-pointer group transition-all duration-500 ${
-                  index === 0 || index === 3 ? "md:row-span-2" : ""
-                } ${isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}
-                style={{ transitionDelay: `${index * 100}ms` }}
+                className={`col-span-6 md:col-span-4 cursor-pointer group transition-all duration-700 ${
+                  isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
+                }`}
+                style={{ transitionDelay: `${(index + 1) * 100}ms` }}
                 onClick={() => setSelectedImage(image.src)}
               >
-                <div className={`relative w-full h-full ${
-                  index === 0 || index === 3 ? "aspect-[3/4]" : "aspect-[4/3]"
-                }`}>
+                <div className="relative aspect-square rounded-xl overflow-hidden">
                   <img
                     src={image.src}
                     alt={image.alt}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/20 transition-colors duration-300" />
-                  <div className="absolute inset-0 flex items-end p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <span className="text-primary-foreground text-sm font-medium bg-primary/80 px-3 py-1 rounded-full backdrop-blur-sm">
-                      {image.alt}
-                    </span>
-                  </div>
+                </div>
+              </div>
+            ))}
+
+            {/* Bottom row - 4 images */}
+            {galleryImages.slice(3).map((image, index) => (
+              <div
+                key={index + 3}
+                className={`col-span-6 md:col-span-3 cursor-pointer group transition-all duration-700 ${
+                  isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
+                }`}
+                style={{ transitionDelay: `${(index + 3) * 100}ms` }}
+                onClick={() => setSelectedImage(image.src)}
+              >
+                <div className="relative aspect-[4/3] rounded-xl overflow-hidden">
+                  <img
+                    src={image.src}
+                    alt={image.alt}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/20 transition-colors duration-300" />
                 </div>
               </div>
             ))}
@@ -96,22 +143,22 @@ const GallerySection = () => {
       {/* Lightbox */}
       {selectedImage && (
         <div
-          className="fixed inset-0 z-50 bg-foreground/90 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in"
+          className="fixed inset-0 z-50 bg-foreground/95 backdrop-blur-md flex items-center justify-center p-4"
           onClick={() => setSelectedImage(null)}
         >
           <button
-            className="absolute top-6 right-6 text-background hover:text-background/80 transition-colors"
+            className="absolute top-6 right-6 w-12 h-12 bg-card/20 hover:bg-card/40 rounded-full flex items-center justify-center text-primary-foreground transition-colors"
             onClick={() => setSelectedImage(null)}
             aria-label="Luk billede"
           >
-            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
           <img
             src={selectedImage}
             alt="Forstørret billede"
-            className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl animate-scale-in"
+            className="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl animate-scale-in"
             onClick={(e) => e.stopPropagation()}
           />
         </div>

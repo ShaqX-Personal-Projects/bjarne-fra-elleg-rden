@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { MapPin, Mail, Phone, Clock } from "lucide-react";
+import { MapPin, Mail, Phone, Clock, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 
@@ -16,7 +16,7 @@ const ContactSection = () => {
           setIsVisible(true);
         }
       },
-      { threshold: 0.2 }
+      { threshold: 0.1 }
     );
 
     if (sectionRef.current) {
@@ -30,7 +30,6 @@ const ContactSection = () => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate form submission
     await new Promise((resolve) => setTimeout(resolve, 1000));
     
     toast({
@@ -42,7 +41,7 @@ const ContactSection = () => {
     (e.target as HTMLFormElement).reset();
   };
 
-  const contactInfo = [
+  const contactItems = [
     {
       icon: MapPin,
       label: "Adresse",
@@ -72,136 +71,160 @@ const ContactSection = () => {
     <section
       id="kontakt"
       ref={sectionRef}
-      className="py-20 md:py-28 bg-muted/30"
+      className="py-24 md:py-32 relative overflow-hidden"
     >
-      <div className="container mx-auto">
-        {/* Header */}
-        <div className={`text-center max-w-3xl mx-auto mb-16 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
-          <span className="inline-block text-secondary font-semibold text-sm uppercase tracking-wider mb-4">
-            Skriv til os
-          </span>
-          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
-            Kontakt Os
-          </h2>
-          <p className="text-lg text-muted-foreground">
-            Har du spørgsmål, ønsker et uforpligtende tilbud eller vil booke en opgave, er du altid velkommen til at kontakte os.
-          </p>
-        </div>
+      {/* Decorative background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-muted/50 via-background to-muted/30" />
+      <div className="absolute top-1/4 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 left-1/4 w-64 h-64 bg-secondary/5 rounded-full blur-3xl" />
 
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
-          {/* Contact Info */}
-          <div className={`transition-all duration-700 delay-100 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"}`}>
-            <div className="bg-card border border-border rounded-2xl p-8 shadow-soft">
-              <h3 className="font-serif text-2xl font-semibold text-foreground mb-8">
-                Kontaktoplysninger
-              </h3>
-              <div className="space-y-6">
-                {contactInfo.map((item) => (
-                  <div key={item.label} className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                      <item.icon className="w-5 h-5 text-primary" />
+      <div className="container mx-auto relative z-10">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-8">
+          {/* Left side - Contact info */}
+          <div className={`lg:col-span-5 transition-all duration-700 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"}`}>
+            <div className="flex items-center gap-4 mb-6">
+              <div className="h-px w-16 bg-secondary" />
+              <span className="text-secondary font-semibold text-sm uppercase tracking-widest">Kontakt</span>
+            </div>
+            
+            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-6">
+              Lad os
+              <span className="block text-secondary">tale sammen</span>
+            </h2>
+            
+            <p className="text-lg text-muted-foreground mb-10">
+              Har du spørgsmål, ønsker et uforpligtende tilbud eller vil booke en opgave? Vi er altid klar til at hjælpe.
+            </p>
+
+            {/* Contact items */}
+            <div className="space-y-4">
+              {contactItems.map((item, index) => (
+                <div
+                  key={item.label}
+                  className={`group transition-all duration-500 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"}`}
+                  style={{ transitionDelay: `${index * 100}ms` }}
+                >
+                  {item.href ? (
+                    <a
+                      href={item.href}
+                      target={item.href.startsWith("http") ? "_blank" : undefined}
+                      rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                      className="flex items-center gap-4 p-4 rounded-xl bg-card border border-border hover:border-primary/30 hover:shadow-soft transition-all"
+                    >
+                      <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                        <item.icon className="w-5 h-5 text-primary" />
+                      </div>
+                      <div>
+                        <span className="block text-sm text-muted-foreground">{item.label}</span>
+                        <span className="font-medium text-foreground group-hover:text-primary transition-colors">{item.value}</span>
+                      </div>
+                    </a>
+                  ) : (
+                    <div className="flex items-center gap-4 p-4 rounded-xl bg-card border border-border">
+                      <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+                        <item.icon className="w-5 h-5 text-primary" />
+                      </div>
+                      <div>
+                        <span className="block text-sm text-muted-foreground">{item.label}</span>
+                        <span className="font-medium text-foreground">{item.value}</span>
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground mb-1">
-                        {item.label}
-                      </p>
-                      {item.href ? (
-                        <a
-                          href={item.href}
-                          className="text-foreground font-medium hover:text-primary transition-colors"
-                          target={item.href.startsWith("http") ? "_blank" : undefined}
-                          rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                        >
-                          {item.value}
-                        </a>
-                      ) : (
-                        <p className="text-foreground font-medium">{item.value}</p>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Contact Form */}
-          <div className={`transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"}`}>
-            <form onSubmit={handleSubmit} className="bg-card border border-border rounded-2xl p-8 shadow-soft">
-              <h3 className="font-serif text-2xl font-semibold text-foreground mb-8">
-                Send en besked
-              </h3>
+          {/* Right side - Form */}
+          <div className={`lg:col-span-6 lg:col-start-7 transition-all duration-700 delay-300 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"}`}>
+            <div className="relative">
+              {/* Decorative elements */}
+              <div className="absolute -top-4 -right-4 w-24 h-24 border-2 border-secondary/20 rounded-2xl" />
+              <div className="absolute -bottom-4 -left-4 w-32 h-32 border-2 border-primary/10 rounded-2xl" />
               
-              <div className="space-y-5">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
-                    Navn
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    required
-                    className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-foreground placeholder:text-muted-foreground"
-                    placeholder="Dit navn"
-                  />
+              <form onSubmit={handleSubmit} className="relative bg-card border border-border rounded-2xl p-8 md:p-10 shadow-soft">
+                <h3 className="font-serif text-2xl font-bold text-foreground mb-8">
+                  Send os en besked
+                </h3>
+                
+                <div className="space-y-5">
+                  <div className="grid sm:grid-cols-2 gap-5">
+                    <div>
+                      <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
+                        Navn *
+                      </label>
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        required
+                        className="w-full px-4 py-3.5 bg-background border border-border rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-foreground placeholder:text-muted-foreground"
+                        placeholder="Dit navn"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-2">
+                        Telefon
+                      </label>
+                      <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        className="w-full px-4 py-3.5 bg-background border border-border rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-foreground placeholder:text-muted-foreground"
+                        placeholder="+45 XX XX XX XX"
+                      />
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
+                      E-mail *
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      required
+                      className="w-full px-4 py-3.5 bg-background border border-border rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-foreground placeholder:text-muted-foreground"
+                      placeholder="din@email.dk"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
+                      Besked *
+                    </label>
+                    <textarea
+                      id="message"
+                      name="message"
+                      required
+                      rows={5}
+                      className="w-full px-4 py-3.5 bg-background border border-border rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all resize-none text-foreground placeholder:text-muted-foreground"
+                      placeholder="Fortæl os, hvad vi kan hjælpe med..."
+                    />
+                  </div>
                 </div>
                 
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
-                    E-mail
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    required
-                    className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-foreground placeholder:text-muted-foreground"
-                    placeholder="din@email.dk"
-                  />
-                </div>
+                <Button
+                  type="submit"
+                  variant="default"
+                  size="lg"
+                  className="w-full mt-6 gap-2"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Sender..." : (
+                    <>
+                      Send besked
+                      <Send className="w-4 h-4" />
+                    </>
+                  )}
+                </Button>
                 
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-2">
-                    Telefon
-                  </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-foreground placeholder:text-muted-foreground"
-                    placeholder="+45 XX XX XX XX"
-                  />
-                </div>
-                
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
-                    Besked
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    required
-                    rows={4}
-                    className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all resize-none text-foreground placeholder:text-muted-foreground"
-                    placeholder="Fortæl os, hvad vi kan hjælpe med..."
-                  />
-                </div>
-              </div>
-              
-              <Button
-                type="submit"
-                variant="default"
-                size="lg"
-                className="w-full mt-6"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? "Sender..." : "Send besked"}
-              </Button>
-              
-              <p className="text-sm text-muted-foreground text-center mt-4">
-                Vi vender tilbage så hurtigt som muligt.
-              </p>
-            </form>
+                <p className="text-sm text-muted-foreground text-center mt-4">
+                  Vi vender tilbage så hurtigt som muligt.
+                </p>
+              </form>
+            </div>
           </div>
         </div>
       </div>
