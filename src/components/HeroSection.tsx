@@ -111,19 +111,6 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* Scroll Indicator - positioned bottom left */}
-      <div className="absolute bottom-8 left-8 z-20 animate-fade-in opacity-0 stagger-5 hidden md:block">
-        <button
-          onClick={() => scrollToSection("#om-os")}
-          className="flex items-center gap-3 text-primary-foreground/70 hover:text-primary-foreground transition-colors group"
-          aria-label="Scroll ned"
-        >
-          <div className="w-12 h-20 border-2 border-primary-foreground/30 rounded-full flex items-start justify-center pt-2 group-hover:border-primary-foreground/50 transition-colors">
-            <div className="w-1.5 h-3 bg-primary-foreground/50 rounded-full animate-bounce" />
-          </div>
-          <span className="text-sm font-medium uppercase tracking-wider">Scroll</span>
-        </button>
-      </div>
     </section>
   );
 };
