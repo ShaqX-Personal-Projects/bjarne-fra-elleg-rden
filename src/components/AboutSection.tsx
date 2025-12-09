@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Leaf, Users, Award } from "lucide-react";
+import aboutTeamImage from "@/assets/about-team.png";
 
 const AboutSection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -51,8 +52,20 @@ const AboutSection = () => {
 
       <div className="container mx-auto relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Content */}
+          {/* Image */}
           <div className={`transition-all duration-700 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"}`}>
+            <div className="relative">
+              <div className="absolute -inset-4 bg-primary/10 rounded-2xl -z-10" />
+              <img
+                src={aboutTeamImage}
+                alt="Bjarne og teamet fra Ellegården i arbejde"
+                className="w-full h-auto rounded-xl shadow-medium object-cover aspect-[4/5]"
+              />
+            </div>
+          </div>
+
+          {/* Content */}
+          <div className={`transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"}`}>
             <span className="inline-block text-secondary font-semibold text-sm uppercase tracking-wider mb-4">
               Om os
             </span>
@@ -67,31 +80,27 @@ const AboutSection = () => {
                 Vi arbejder udelukkende på Læsø og kender de lokale forhold, naturen og jorden. Det betyder, at du får praktisk, ærlig rådgivning og løsninger, der rent faktisk fungerer i din have eller på din grund.
               </p>
             </div>
-          </div>
 
-          {/* Features */}
-          <div className={`grid gap-6 transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"}`}>
-            {features.map((feature, index) => (
-              <div
-                key={feature.title}
-                className="bg-card border border-border rounded-xl p-6 shadow-card hover:shadow-soft transition-all duration-300 hover:-translate-y-1"
-                style={{ transitionDelay: `${index * 100}ms` }}
-              >
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                    <feature.icon className="w-6 h-6 text-primary" />
+            {/* Features */}
+            <div className="grid sm:grid-cols-3 gap-4 mt-8">
+              {features.map((feature, index) => (
+                <div
+                  key={feature.title}
+                  className="bg-card border border-border rounded-xl p-4 shadow-card hover:shadow-soft transition-all duration-300 hover:-translate-y-1 text-center"
+                  style={{ transitionDelay: `${index * 100}ms` }}
+                >
+                  <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-3">
+                    <feature.icon className="w-5 h-5 text-primary" />
                   </div>
-                  <div>
-                    <h3 className="font-serif text-xl font-semibold text-foreground mb-2">
-                      {feature.title}
-                    </h3>
-                    <p className="text-muted-foreground">
-                      {feature.description}
-                    </p>
-                  </div>
+                  <h3 className="font-serif text-base font-semibold text-foreground mb-1">
+                    {feature.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    {feature.description}
+                  </p>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </div>
