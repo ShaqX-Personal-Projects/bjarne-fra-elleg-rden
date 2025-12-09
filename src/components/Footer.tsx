@@ -89,12 +89,20 @@ const Footer = forwardRef<HTMLElement>((_, ref) => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-primary-foreground/10 pt-8">
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-2 text-primary-foreground/40 text-sm">
-            <p>© {currentYear} Bjarne Fra Ellegården. Alle rettigheder forbeholdes.</p>
+        <div className="border-t border-primary-foreground/10 pt-8 space-y-3">
+          <p className="text-center text-primary-foreground/60 text-sm">
+            © {currentYear} af ShaqX
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-primary-foreground/40 text-sm">
+            <span>Bjarne Fra Ellegården</span>
             <span className="hidden sm:inline">•</span>
-            <p>Hjemmeside af <span className="text-primary-foreground/60 hover:text-primary-foreground transition-colors">ShaqX</span></p>
+            <span>CVR: 42651729</span>
+            <span className="hidden sm:inline">•</span>
+            <span>Ejet af Bjarne Christensen</span>
           </div>
+          <p className="text-center text-primary-foreground/30 text-xs">
+            Alle rettigheder forbeholdes.
+          </p>
         </div>
       </div>
     </footer>
