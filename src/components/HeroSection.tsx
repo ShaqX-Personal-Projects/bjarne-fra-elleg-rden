@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowDown, MapPin } from "lucide-react";
+import { ArrowDown, MapPin, Phone } from "lucide-react";
 import heroImage from "@/assets/hero-bg.png";
 
 const HeroSection = () => {
@@ -9,77 +9,120 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-      {/* Background Image */}
+    <section className="relative min-h-screen overflow-hidden">
+      {/* Full background image */}
       <div className="absolute inset-0 z-0">
         <img
           src={heroImage}
-          alt="Havearbejde på Læsø"
+          alt="Smuk have på Læsø"
           className="w-full h-full object-cover object-[center_70%]"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/70 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-r from-foreground/90 via-foreground/70 to-transparent" />
       </div>
 
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-[0.02] z-10">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231F2521' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-        }} />
+      {/* Content */}
+      <div className="relative z-10 min-h-screen flex items-center">
+        <div className="container mx-auto">
+          <div className="grid lg:grid-cols-12 gap-8 items-center">
+            {/* Left content - takes 7 columns */}
+            <div className="lg:col-span-7 pt-24 pb-16 lg:py-0">
+              {/* Badge */}
+              <div className="inline-flex items-center gap-2 bg-primary/20 backdrop-blur-sm border border-primary/30 px-4 py-2 rounded-full mb-6 animate-fade-in-up opacity-0">
+                <MapPin className="w-4 h-4 text-primary-foreground" />
+                <span className="text-sm font-medium text-primary-foreground">Kun på Læsø</span>
+              </div>
+
+              {/* Main Heading */}
+              <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-bold text-primary-foreground leading-[1.1] mb-6 animate-fade-in-up opacity-0 stagger-1">
+                Havearbejde
+                <span className="block text-secondary mt-2">& anlæg</span>
+                <span className="block text-primary-foreground/80 text-3xl sm:text-4xl md:text-5xl mt-4">på Læsø</span>
+              </h1>
+
+              {/* Description */}
+              <p className="text-lg md:text-xl text-primary-foreground/80 max-w-xl mb-8 animate-fade-in-up opacity-0 stagger-2">
+                Professionel hjælp til have, skov og udearealer. Vi kender øen, jorden og naturen – og leverer løsninger der virker.
+              </p>
+
+              {/* CTA Buttons - Stacked asymmetrically */}
+              <div className="flex flex-wrap items-center gap-4 animate-fade-in-up opacity-0 stagger-3">
+                <Button
+                  variant="hero"
+                  size="lg"
+                  onClick={() => scrollToSection("#services")}
+                  className="bg-primary text-primary-foreground"
+                >
+                  Se vores services
+                </Button>
+                <a href="tel:+4524429676" className="group flex items-center gap-3 text-primary-foreground hover:text-secondary transition-colors">
+                  <div className="w-12 h-12 rounded-full border-2 border-primary-foreground/30 flex items-center justify-center group-hover:border-secondary group-hover:bg-secondary/10 transition-all">
+                    <Phone className="w-5 h-5" />
+                  </div>
+                  <div className="text-left">
+                    <span className="block text-xs uppercase tracking-wider opacity-70">Ring til os</span>
+                    <span className="block font-semibold">+45 24 42 96 76</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            {/* Right side - Floating card */}
+            <div className="lg:col-span-5 hidden lg:block animate-fade-in-up opacity-0 stagger-4">
+              <div className="relative">
+                {/* Decorative shape behind */}
+                <div className="absolute -top-8 -right-8 w-64 h-64 bg-secondary/20 rounded-full blur-3xl" />
+                
+                {/* Stats card */}
+                <div className="relative bg-card/95 backdrop-blur-md rounded-2xl p-8 shadow-medium border border-border/50 transform rotate-2 hover:rotate-0 transition-transform duration-500">
+                  <h3 className="font-serif text-2xl font-bold text-foreground mb-6">Bjarne Fra Ellegården</h3>
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-4 p-3 bg-muted/50 rounded-lg">
+                      <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                        <span className="text-xl">🌳</span>
+                      </div>
+                      <div>
+                        <span className="block text-sm text-muted-foreground">Erfaring</span>
+                        <span className="font-semibold text-foreground">Mange års ekspertise</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4 p-3 bg-muted/50 rounded-lg">
+                      <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                        <span className="text-xl">🏡</span>
+                      </div>
+                      <div>
+                        <span className="block text-sm text-muted-foreground">Kundetype</span>
+                        <span className="font-semibold text-foreground">Private & erhverv</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4 p-3 bg-muted/50 rounded-lg">
+                      <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                        <span className="text-xl">📍</span>
+                      </div>
+                      <div>
+                        <span className="block text-sm text-muted-foreground">Område</span>
+                        <span className="font-semibold text-foreground">Hele Læsø</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div className="container mx-auto px-4 relative z-20">
-        <div className="max-w-4xl mx-auto text-center">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 bg-card border border-border px-4 py-2 rounded-full mb-8 animate-fade-in-up opacity-0 shadow-card">
-            <MapPin className="w-4 h-4 text-primary" />
-            <span className="text-sm font-medium text-muted-foreground">Kun på Læsø</span>
+      {/* Scroll Indicator - positioned bottom left */}
+      <div className="absolute bottom-8 left-8 z-20 animate-fade-in opacity-0 stagger-5 hidden md:block">
+        <button
+          onClick={() => scrollToSection("#om-os")}
+          className="flex items-center gap-3 text-primary-foreground/70 hover:text-primary-foreground transition-colors group"
+          aria-label="Scroll ned"
+        >
+          <div className="w-12 h-20 border-2 border-primary-foreground/30 rounded-full flex items-start justify-center pt-2 group-hover:border-primary-foreground/50 transition-colors">
+            <div className="w-1.5 h-3 bg-primary-foreground/50 rounded-full animate-bounce" />
           </div>
-
-          {/* Main Heading */}
-          <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight mb-6 animate-fade-in-up opacity-0 stagger-1">
-            Alt inden for havearbejde og anlæg på Læsø
-          </h1>
-
-          {/* Subheading */}
-          <p className="text-xl md:text-2xl text-secondary font-medium mb-6 animate-fade-in-up opacity-0 stagger-2">
-            Bjarne Fra Ellegården – professionel hjælp til have, skov og udearealer for både private og erhverv.
-          </p>
-
-          {/* Description */}
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-10 animate-fade-in-up opacity-0 stagger-3">
-            Træd ind i vores univers, hvor haver blomstrer, og naturen får nyt liv. Vi hjælper dig med alt fra løbende vedligeholdelse til de tunge anlægsopgaver – kun på Læsø.
-          </p>
-
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up opacity-0 stagger-4">
-            <Button
-              variant="hero"
-              size="lg"
-              onClick={() => scrollToSection("#services")}
-            >
-              Se vores services
-            </Button>
-            <Button
-              variant="heroOutline"
-              size="lg"
-              onClick={() => scrollToSection("#kontakt")}
-            >
-              Kontakt Os
-            </Button>
-          </div>
-        </div>
-
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-fade-in opacity-0 stagger-5">
-          <button
-            onClick={() => scrollToSection("#om-os")}
-            className="flex flex-col items-center gap-2 text-muted-foreground hover:text-primary transition-colors group"
-            aria-label="Scroll ned"
-          >
-            <span className="text-sm font-medium">Scroll ned</span>
-            <ArrowDown className="w-5 h-5 animate-bounce" />
-          </button>
-        </div>
+          <span className="text-sm font-medium uppercase tracking-wider">Scroll</span>
+        </button>
       </div>
     </section>
   );

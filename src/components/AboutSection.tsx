@@ -23,81 +23,76 @@ const AboutSection = () => {
     return () => observer.disconnect();
   }, []);
 
-  const features = [
-    {
-      icon: Leaf,
-      title: "Lokalt kendskab",
-      description: "Vi kender Læsøs natur, jord og klima til bunds.",
-    },
-    {
-      icon: Users,
-      title: "Personlig service",
-      description: "Ærlig rådgivning og løsninger der passer til dig.",
-    },
-    {
-      icon: Award,
-      title: "Erfaring",
-      description: "Mange års erfaring med alle typer haveopgaver.",
-    },
-  ];
-
   return (
     <section
       id="om-os"
       ref={sectionRef}
-      className="py-20 md:py-28 relative overflow-hidden"
+      className="py-24 md:py-32 relative overflow-hidden"
     >
-      {/* Background accent */}
-      <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-muted/30 to-transparent" />
+      {/* Decorative elements */}
+      <div className="absolute top-0 left-0 w-1/3 h-full bg-muted/40 -skew-x-12 origin-top-left" />
+      <div className="absolute bottom-0 right-0 w-48 h-48 bg-secondary/10 rounded-full blur-3xl" />
 
       <div className="container mx-auto relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Image */}
-          <div className={`transition-all duration-700 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"}`}>
-            <div className="relative">
-              <div className="absolute -inset-4 bg-primary/10 rounded-2xl -z-10" />
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-start">
+          {/* Image Column - Offset position */}
+          <div className={`lg:col-span-5 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"}`}>
+            <div className="relative lg:-mt-16">
+              {/* Decorative frame */}
+              <div className="absolute -inset-4 border-2 border-secondary/30 rounded-2xl transform -rotate-3" />
+              <div className="absolute -inset-4 border-2 border-primary/20 rounded-2xl transform rotate-2" />
+              
               <img
                 src={aboutTeamImage}
-                alt="Bjarne og teamet fra Ellegården i arbejde"
-                className="w-full h-auto rounded-xl shadow-medium object-cover aspect-[4/5]"
+                alt="Bjarne og teamet fra Ellegården"
+                className="relative w-full rounded-xl shadow-medium object-cover aspect-[4/5]"
               />
+              
+              {/* Floating badge */}
+              <div className="absolute -bottom-6 -right-6 bg-primary text-primary-foreground px-6 py-4 rounded-xl shadow-medium">
+                <span className="block text-3xl font-serif font-bold">Læsø</span>
+                <span className="text-sm opacity-80">Din lokale partner</span>
+              </div>
             </div>
           </div>
 
-          {/* Content */}
-          <div className={`transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"}`}>
-            <span className="inline-block text-secondary font-semibold text-sm uppercase tracking-wider mb-4">
-              Om os
-            </span>
-            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
-              Din lokale partner på Læsø
+          {/* Content Column */}
+          <div className={`lg:col-span-7 lg:pl-8 transition-all duration-1000 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"}`}>
+            <div className="flex items-center gap-4 mb-6">
+              <div className="h-px flex-1 max-w-16 bg-secondary" />
+              <span className="text-secondary font-semibold text-sm uppercase tracking-widest">Om os</span>
+            </div>
+            
+            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-8">
+              Vi kender 
+              <span className="text-secondary"> hver en krog</span>
+              <span className="block">af Læsø</span>
             </h2>
-            <div className="space-y-4 text-muted-foreground text-lg leading-relaxed">
+            
+            <div className="space-y-6 text-lg text-muted-foreground leading-relaxed mb-10">
               <p>
-                Hos Bjarne Fra Ellegården tilbyder vi professionelt havearbejde og anlægstjenester til både private og erhverv. Med mange års erfaring er vi din pålidelige partner til alt fra den daglige vedligeholdelse af din have til større anlægsprojekter.
+                Hos Bjarne Fra Ellegården tilbyder vi professionelt havearbejde og anlægstjenester til både private og erhverv. Med mange års erfaring er vi din pålidelige partner til alt fra den daglige vedligeholdelse til større anlægsprojekter.
               </p>
               <p>
-                Vi arbejder udelukkende på Læsø og kender de lokale forhold, naturen og jorden. Det betyder, at du får praktisk, ærlig rådgivning og løsninger, der rent faktisk fungerer i din have eller på din grund.
+                Vi arbejder <strong className="text-foreground">udelukkende på Læsø</strong> og kender de lokale forhold, naturen og jorden. Det betyder praktisk, ærlig rådgivning og løsninger der rent faktisk fungerer.
               </p>
             </div>
 
-            {/* Features */}
-            <div className="grid sm:grid-cols-3 gap-4 mt-8">
-              {features.map((feature, index) => (
+            {/* Features - Horizontal layout */}
+            <div className="grid grid-cols-3 gap-4">
+              {[
+                { icon: Leaf, label: "Lokalt kendskab" },
+                { icon: Users, label: "Personlig service" },
+                { icon: Award, label: "Års erfaring" },
+              ].map((item, index) => (
                 <div
-                  key={feature.title}
-                  className="bg-card border border-border rounded-xl p-4 shadow-card hover:shadow-soft transition-all duration-300 hover:-translate-y-1 text-center"
-                  style={{ transitionDelay: `${index * 100}ms` }}
+                  key={item.label}
+                  className="group text-center p-4 rounded-xl hover:bg-muted/50 transition-colors"
                 >
-                  <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-3">
-                    <feature.icon className="w-5 h-5 text-primary" />
+                  <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:bg-primary/20 transition-colors">
+                    <item.icon className="w-6 h-6 text-primary" />
                   </div>
-                  <h3 className="font-serif text-base font-semibold text-foreground mb-1">
-                    {feature.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground">
-                    {feature.description}
-                  </p>
+                  <span className="text-sm font-medium text-foreground">{item.label}</span>
                 </div>
               ))}
             </div>
