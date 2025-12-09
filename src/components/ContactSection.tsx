@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, forwardRef } from "react";
 import { MapPin, Mail, Phone, Clock, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const ContactSection = () => {
+const ContactSection = forwardRef<HTMLElement>((_, ref) => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -52,7 +52,15 @@ const ContactSection = () => {
   return (
     <section
       id="kontakt"
-      ref={sectionRef}
+      ref={(node) => {
+        // Handle both refs
+        (sectionRef as React.MutableRefObject<HTMLElement | null>).current = node;
+        if (typeof ref === 'function') {
+          ref(node);
+        } else if (ref) {
+          ref.current = node;
+        }
+      }}
       className="py-24 md:py-32 relative overflow-hidden"
     >
       {/* Decorative background */}
@@ -224,6 +232,8 @@ const ContactSection = () => {
       </div>
     </section>
   );
-};
+});
+
+ContactSection.displayName = "ContactSection";
 
 export default ContactSection;
