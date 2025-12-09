@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
 
 // Import gallery images
 import gallery1 from "@/assets/gallery/gallery-1.jpg";
@@ -21,8 +22,40 @@ const galleryImages = [
 
 const GallerySection = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
+  const touchStartX = useRef<number | null>(null);
+
+  const goToPrevious = useCallback(() => {
+    if (selectedIndex !== null) {
+      setSelectedIndex((selectedIndex - 1 + galleryImages.length) % galleryImages.length);
+    }
+  }, [selectedIndex]);
+
+  const goToNext = useCallback(() => {
+    if (selectedIndex !== null) {
+      setSelectedIndex((selectedIndex + 1) % galleryImages.length);
+    }
+  }, [selectedIndex]);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const touchEndX = e.changedTouches[0].clientX;
+    const diff = touchStartX.current - touchEndX;
+    
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) {
+        goToNext();
+      } else {
+        goToPrevious();
+      }
+    }
+    touchStartX.current = null;
+  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -40,6 +73,18 @@ const GallerySection = () => {
 
     return () => observer.disconnect();
   }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (selectedIndex === null) return;
+      if (e.key === "ArrowLeft") goToPrevious();
+      if (e.key === "ArrowRight") goToNext();
+      if (e.key === "Escape") setSelectedIndex(null);
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [selectedIndex, goToPrevious, goToNext]);
 
   return (
     <>
@@ -78,7 +123,7 @@ const GallerySection = () => {
               className={`col-span-12 md:col-span-8 row-span-2 cursor-pointer group transition-all duration-700 ${
                 isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
               }`}
-              onClick={() => setSelectedImage(galleryImages[0].src)}
+              onClick={() => setSelectedIndex(0)}
             >
               <div className="relative h-full min-h-[300px] md:min-h-[500px] rounded-2xl overflow-hidden">
                 <img
@@ -104,7 +149,7 @@ const GallerySection = () => {
                   isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
                 }`}
                 style={{ transitionDelay: `${(index + 1) * 100}ms` }}
-                onClick={() => setSelectedImage(image.src)}
+                onClick={() => setSelectedIndex(index + 1)}
               >
                 <div className="relative aspect-square rounded-xl overflow-hidden">
                   <img
@@ -126,7 +171,7 @@ const GallerySection = () => {
                   isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
                 }`}
                 style={{ transitionDelay: `${(index + 3) * 100}ms` }}
-                onClick={() => setSelectedImage(image.src)}
+                onClick={() => setSelectedIndex(index + 3)}
               >
                 <div className="relative aspect-[4/3] rounded-xl overflow-hidden">
                   <img
@@ -143,27 +188,62 @@ const GallerySection = () => {
         </div>
       </section>
 
-      {/* Lightbox */}
-      {selectedImage && (
+      {/* Lightbox with swipe support */}
+      {selectedIndex !== null && (
         <div
-          className="fixed inset-0 z-50 bg-foreground/95 backdrop-blur-md flex items-center justify-center p-4"
-          onClick={() => setSelectedImage(null)}
+          className="fixed inset-0 z-50 bg-foreground/95 backdrop-blur-md flex items-center justify-center"
+          onClick={() => setSelectedIndex(null)}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
         >
+          {/* Close button - positioned outside image area */}
           <button
-            className="absolute top-6 right-6 w-12 h-12 bg-card/20 hover:bg-card/40 rounded-full flex items-center justify-center text-primary-foreground transition-colors"
-            onClick={() => setSelectedImage(null)}
+            className="absolute top-4 right-4 z-50 w-12 h-12 bg-card hover:bg-card/80 rounded-full flex items-center justify-center text-foreground transition-colors shadow-lg"
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelectedIndex(null);
+            }}
             aria-label="Luk billede"
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
+            <X className="w-6 h-6" />
           </button>
-          <img
-            src={selectedImage}
-            alt="Forstørret billede"
-            className="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl animate-scale-in"
-            onClick={(e) => e.stopPropagation()}
-          />
+
+          {/* Navigation buttons */}
+          <button
+            className="absolute left-4 top-1/2 -translate-y-1/2 z-50 w-12 h-12 bg-card hover:bg-card/80 rounded-full flex items-center justify-center text-foreground transition-colors shadow-lg"
+            onClick={(e) => {
+              e.stopPropagation();
+              goToPrevious();
+            }}
+            aria-label="Forrige billede"
+          >
+            <ChevronLeft className="w-6 h-6" />
+          </button>
+
+          <button
+            className="absolute right-4 top-1/2 -translate-y-1/2 z-50 w-12 h-12 bg-card hover:bg-card/80 rounded-full flex items-center justify-center text-foreground transition-colors shadow-lg"
+            onClick={(e) => {
+              e.stopPropagation();
+              goToNext();
+            }}
+            aria-label="Næste billede"
+          >
+            <ChevronRight className="w-6 h-6" />
+          </button>
+
+          {/* Image container */}
+          <div className="relative max-w-[85vw] max-h-[80vh] mx-16">
+            <img
+              src={galleryImages[selectedIndex].src}
+              alt={galleryImages[selectedIndex].alt}
+              className="max-w-full max-h-[80vh] object-contain rounded-xl shadow-2xl animate-scale-in"
+              onClick={(e) => e.stopPropagation()}
+            />
+            {/* Image caption */}
+            <p className="absolute -bottom-10 left-1/2 -translate-x-1/2 text-primary-foreground/80 text-sm whitespace-nowrap">
+              {galleryImages[selectedIndex].alt} • {selectedIndex + 1} / {galleryImages.length}
+            </p>
+          </div>
         </div>
       )}
     </>
