@@ -128,17 +128,13 @@ const ServicesSection = () => {
               }`}
               style={{ transitionDelay: `${index * 60}ms` }}
             >
-              <div className="flex items-start gap-4">
-                <div className="flex-shrink-0 w-12 h-12 bg-secondary/20 rounded-xl flex items-center justify-center group-hover:bg-secondary/30 transition-colors">
-                  <service.icon className="w-6 h-6 text-secondary" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-serif text-lg font-bold mb-2 group-hover:text-secondary transition-colors leading-tight">
-                    {service.title}
-                  </h3>
-                </div>
+              <div className="flex-shrink-0 w-12 h-12 bg-secondary/20 rounded-xl flex items-center justify-center group-hover:bg-secondary/30 transition-colors mb-4">
+                <service.icon className="w-6 h-6 text-secondary" />
               </div>
-              <p className="text-primary-foreground/70 text-sm leading-relaxed mt-4">
+              <h3 className="font-serif text-lg font-bold mb-2 group-hover:text-secondary transition-colors leading-tight">
+                {service.title}
+              </h3>
+              <p className="text-primary-foreground/70 text-sm leading-relaxed mt-auto">
                 {service.description}
               </p>
             </div>
