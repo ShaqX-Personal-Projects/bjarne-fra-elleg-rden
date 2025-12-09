@@ -135,15 +135,13 @@ const ContactSection = forwardRef<HTMLElement>((_, ref) => {
               <form 
                 name="contact"
                 method="POST"
+                action="/tak"
                 data-netlify="true"
                 data-netlify-honeypot="bot-field"
                 className="relative bg-card border border-border rounded-2xl p-8 md:p-10 shadow-soft"
               >
-                {/* Hidden field for Netlify */}
-                <input type="hidden" name="form-name" value="contact" />
-                
                 {/* Honeypot field for spam protection */}
-                <p className="hidden">
+                <p style={{ display: 'none' }}>
                   <label>
                     Don't fill this out if you're human: 
                     <input name="bot-field" />
