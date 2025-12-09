@@ -90,9 +90,6 @@ const ServicesSection = () => {
     return () => observer.disconnect();
   }, []);
 
-  // Split services into featured and regular
-  const featuredServices = services.filter(s => s.featured);
-  const regularServices = services.filter(s => !s.featured);
 
   return (
     <section
@@ -121,54 +118,29 @@ const ServicesSection = () => {
           </p>
         </div>
 
-        {/* Featured Services - Large cards */}
-        <div className="grid md:grid-cols-3 gap-6 mb-8">
-          {featuredServices.map((service, index) => (
+        {/* All Services - Uniform grid */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {services.map((service, index) => (
             <div
               key={service.title}
-              className={`group relative bg-primary-foreground/5 backdrop-blur-sm border border-primary-foreground/10 rounded-2xl p-8 hover:bg-primary-foreground/10 transition-all duration-500 hover:-translate-y-2 ${
+              className={`group relative bg-primary-foreground/5 backdrop-blur-sm border border-primary-foreground/10 rounded-2xl p-6 hover:bg-primary-foreground/10 transition-all duration-500 hover:-translate-y-1 flex flex-col h-full ${
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
               }`}
-              style={{ transitionDelay: `${index * 100}ms` }}
+              style={{ transitionDelay: `${index * 60}ms` }}
             >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-secondary/5 rounded-full blur-2xl group-hover:bg-secondary/10 transition-colors" />
-              
-              <div className="relative">
-                <div className="w-16 h-16 bg-secondary/20 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-secondary/30 transition-colors">
-                  <service.icon className="w-8 h-8 text-secondary" />
+              <div className="flex items-start gap-4">
+                <div className="flex-shrink-0 w-12 h-12 bg-secondary/20 rounded-xl flex items-center justify-center group-hover:bg-secondary/30 transition-colors">
+                  <service.icon className="w-6 h-6 text-secondary" />
                 </div>
-                <h3 className="font-serif text-2xl font-bold mb-4 group-hover:text-secondary transition-colors">
-                  {service.title}
-                </h3>
-                <p className="text-primary-foreground/70 leading-relaxed">
-                  {service.description}
-                </p>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-serif text-lg font-bold mb-2 group-hover:text-secondary transition-colors leading-tight">
+                    {service.title}
+                  </h3>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Regular Services - Compact grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {regularServices.map((service, index) => (
-            <div
-              key={service.title}
-              className={`group flex items-start gap-4 p-5 rounded-xl bg-primary-foreground/5 border border-primary-foreground/10 hover:bg-primary-foreground/10 transition-all duration-300 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-              }`}
-              style={{ transitionDelay: `${(index + 3) * 80}ms` }}
-            >
-              <div className="flex-shrink-0 w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center group-hover:bg-primary/30 transition-colors">
-                <service.icon className="w-6 h-6 text-primary-foreground" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-lg mb-1 group-hover:text-secondary transition-colors">
-                  {service.title}
-                </h3>
-                <p className="text-sm text-primary-foreground/60 leading-relaxed">
-                  {service.description}
-                </p>
-              </div>
+              <p className="text-primary-foreground/70 text-sm leading-relaxed mt-4">
+                {service.description}
+              </p>
             </div>
           ))}
         </div>
