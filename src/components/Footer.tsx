@@ -91,7 +91,7 @@ const Footer = forwardRef<HTMLElement>((_, ref) => {
         {/* Bottom Bar */}
         <div className="border-t border-primary-foreground/10 pt-8 space-y-3">
           <p className="text-center text-primary-foreground/60 text-sm">
-            © {currentYear} af ShaqX
+            © {currentYear} af <a href="https://shaqx.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary-foreground transition-colors underline underline-offset-2">ShaqX</a>
           </p>
           <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-primary-foreground/40 text-sm">
             <span>Bjarne Fra Ellegården</span>
