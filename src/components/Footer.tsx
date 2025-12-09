@@ -90,9 +90,11 @@ const Footer = forwardRef<HTMLElement>((_, ref) => {
 
         {/* Bottom Bar */}
         <div className="border-t border-primary-foreground/10 pt-8">
-          <p className="text-center text-primary-foreground/40 text-sm">
-            © {currentYear} Bjarne Fra Ellegården. Alle rettigheder forbeholdes.
-          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-2 text-primary-foreground/40 text-sm">
+            <p>© {currentYear} Bjarne Fra Ellegården. Alle rettigheder forbeholdes.</p>
+            <span className="hidden sm:inline">•</span>
+            <p>Hjemmeside af <span className="text-primary-foreground/60 hover:text-primary-foreground transition-colors">ShaqX</span></p>
+          </div>
         </div>
       </div>
     </footer>
