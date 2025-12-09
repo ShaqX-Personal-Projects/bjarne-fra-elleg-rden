@@ -1,13 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { MapPin, Mail, Phone, Clock, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
 
 const ContactSection = () => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
-  const { toast } = useToast();
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -25,21 +22,6 @@ const ContactSection = () => {
 
     return () => observer.disconnect();
   }, []);
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    
-    toast({
-      title: "Tak for din besked!",
-      description: "Vi vender tilbage så hurtigt som muligt.",
-    });
-    
-    setIsSubmitting(false);
-    (e.target as HTMLFormElement).reset();
-  };
 
   const contactItems = [
     {
@@ -135,14 +117,31 @@ const ContactSection = () => {
             </div>
           </div>
 
-          {/* Right side - Form */}
+          {/* Right side - Netlify Form */}
           <div className={`lg:col-span-6 lg:col-start-7 transition-all duration-700 delay-300 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"}`}>
             <div className="relative">
               {/* Decorative elements */}
               <div className="absolute -top-4 -right-4 w-24 h-24 border-2 border-secondary/20 rounded-2xl" />
               <div className="absolute -bottom-4 -left-4 w-32 h-32 border-2 border-primary/10 rounded-2xl" />
               
-              <form onSubmit={handleSubmit} className="relative bg-card border border-border rounded-2xl p-8 md:p-10 shadow-soft">
+              <form 
+                name="contact"
+                method="POST"
+                data-netlify="true"
+                data-netlify-honeypot="bot-field"
+                className="relative bg-card border border-border rounded-2xl p-8 md:p-10 shadow-soft"
+              >
+                {/* Hidden field for Netlify */}
+                <input type="hidden" name="form-name" value="contact" />
+                
+                {/* Honeypot field for spam protection */}
+                <p className="hidden">
+                  <label>
+                    Don't fill this out if you're human: 
+                    <input name="bot-field" />
+                  </label>
+                </p>
+
                 <h3 className="font-serif text-2xl font-bold text-foreground mb-8">
                   Send os en besked
                 </h3>
@@ -150,26 +149,26 @@ const ContactSection = () => {
                 <div className="space-y-5">
                   <div className="grid sm:grid-cols-2 gap-5">
                     <div>
-                      <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
+                      <label htmlFor="navn" className="block text-sm font-medium text-foreground mb-2">
                         Navn *
                       </label>
                       <input
                         type="text"
-                        id="name"
-                        name="name"
+                        id="navn"
+                        name="navn"
                         required
                         className="w-full px-4 py-3.5 bg-background border border-border rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-foreground placeholder:text-muted-foreground"
                         placeholder="Dit navn"
                       />
                     </div>
                     <div>
-                      <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-2">
+                      <label htmlFor="telefon" className="block text-sm font-medium text-foreground mb-2">
                         Telefon
                       </label>
                       <input
                         type="tel"
-                        id="phone"
-                        name="phone"
+                        id="telefon"
+                        name="telefon"
                         className="w-full px-4 py-3.5 bg-background border border-border rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-foreground placeholder:text-muted-foreground"
                         placeholder="+45 XX XX XX XX"
                       />
@@ -191,12 +190,12 @@ const ContactSection = () => {
                   </div>
                   
                   <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
+                    <label htmlFor="besked" className="block text-sm font-medium text-foreground mb-2">
                       Besked *
                     </label>
                     <textarea
-                      id="message"
-                      name="message"
+                      id="besked"
+                      name="besked"
                       required
                       rows={5}
                       className="w-full px-4 py-3.5 bg-background border border-border rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all resize-none text-foreground placeholder:text-muted-foreground"
@@ -210,14 +209,9 @@ const ContactSection = () => {
                   variant="default"
                   size="lg"
                   className="w-full mt-6 gap-2"
-                  disabled={isSubmitting}
                 >
-                  {isSubmitting ? "Sender..." : (
-                    <>
-                      Send besked
-                      <Send className="w-4 h-4" />
-                    </>
-                  )}
+                  Send besked
+                  <Send className="w-4 h-4" />
                 </Button>
                 
                 <p className="text-sm text-muted-foreground text-center mt-4">
