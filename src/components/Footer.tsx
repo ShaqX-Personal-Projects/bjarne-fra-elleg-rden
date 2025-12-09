@@ -1,6 +1,7 @@
+import { forwardRef } from "react";
 import { MapPin, Mail, Phone, ArrowUp } from "lucide-react";
 
-const Footer = () => {
+const Footer = forwardRef<HTMLElement>((_, ref) => {
   const currentYear = new Date().getFullYear();
 
   const scrollToTop = () => {
@@ -8,7 +9,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-foreground text-primary-foreground relative overflow-hidden" role="contentinfo">
+    <footer ref={ref} className="bg-foreground text-primary-foreground relative overflow-hidden" role="contentinfo">
       {/* Decorative elements */}
       <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-primary-foreground/10 via-transparent to-transparent" aria-hidden="true" />
       <div className="absolute top-0 right-1/3 w-px h-full bg-gradient-to-b from-secondary/10 via-transparent to-transparent" aria-hidden="true" />
@@ -96,6 +97,8 @@ const Footer = () => {
       </div>
     </footer>
   );
-};
+});
+
+Footer.displayName = "Footer";
 
 export default Footer;
