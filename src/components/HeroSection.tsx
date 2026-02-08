@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowDown, MapPin, Phone } from "lucide-react";
+import { MapPin, Phone } from "lucide-react";
 import heroImage from "@/assets/hero-bg.png";
 
 const HeroSection = () => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+
   const scrollToSection = (id: string) => {
     const element = document.querySelector(id);
     element?.scrollIntoView({ behavior: "smooth" });
@@ -11,11 +14,14 @@ const HeroSection = () => {
   return (
     <section className="relative min-h-screen overflow-hidden">
       {/* Full background image */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0 bg-primary/20">
         <img
           src={heroImage}
           alt="Smuk have på Læsø"
-          className="w-full h-full object-cover object-[center_70%]"
+          className={`w-full h-full object-cover object-[center_70%] transition-opacity duration-500 ${
+            imageLoaded ? "opacity-100" : "opacity-0"
+          }`}
+          onLoad={() => setImageLoaded(true)}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-foreground/90 via-foreground/70 to-transparent" />
       </div>
